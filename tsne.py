@@ -14,8 +14,5 @@ pairwise_distances = np.zeros(shape =(len(counts), len(counts)))
 # calculate euclidean distance between data points 
 for cell in range(len(counts)): 
     for cell2 in range(len(counts)):
-        distance = 0 
-        for gene in range(len(counts[0])):
-            distance += (counts[cell][gene] - counts[cell2][gene])**2
-        distance = math.sqrt(distance)
-        pairwise_distances[cell][cell2] = distance
+        distances = math.sqrt(np.sum((counts[cell] - counts[cell2])**2))
+        pairwise_distances[cell][cell2] = distances
