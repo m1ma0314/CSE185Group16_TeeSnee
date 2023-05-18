@@ -1,7 +1,7 @@
 # CSE185Project
 
-Data (count matrix) taken from: 
-https://singlecell.broadinstitute.org/single_cell/study/SCP1526/functional-metabolic-and-transcriptional-maturation-of-human-pancreatic-islets-derived-from-stem-cells#study-download
+Sample data (count matrix) taken from: 
+[https://singlecell.broadinstitute.org/single_cell/study/SCP1526/functional-metabolic-and-transcriptional-maturation-of-human-pancreatic-islets-derived-from-stem-cells#study-download](https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE164073)
 * need to make a Broad Institute account (Free!) to download the data
 
 
