@@ -1,14 +1,19 @@
 import numpy as np 
-def calculate_low_dimension(low_dim, counts):
+
+low_dim = np.random.randn(len(counts), 2)
+
+def calculate_low_dimension(low_dim):
 
     denominators = np.zeros(len(counts))
-    numerators = np.zeros(shape=(len(counts),len(counts)))
-    
+    numerators = np.zeros_like(counts)
+
     for i in range(len(counts)):
         for j in range(len(counts)):
-            if(i ==j): numerators[i][j] = 0
+            if(i == j): numerators[i][j] = 0
             else: 
-                numerators[i][j] = (1+(y[i] - y[j])**2)**-1
+                print((1+(low_dim[i] - low_dim[j])**2)**-1)
+                numerators[i][j] = (1+(np.sum(low_dim[i] - low_dim[j])**2))**-1
+                
         denominators[i]=np.sum(numerators[i,:])
 
     for i in range(len(counts)):
