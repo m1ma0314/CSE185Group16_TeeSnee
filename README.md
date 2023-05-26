@@ -61,3 +61,8 @@ Algorithm as described in original t-sne paper https://lvdmaaten.github.io/publi
    
 9. Plot 
 edit here
+
+
+TODO: 
+* check if file is tsv or csv
+* check if file is zipped
