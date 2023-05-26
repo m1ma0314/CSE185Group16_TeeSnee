@@ -30,7 +30,8 @@ Algorithm as described in original t-sne paper https://lvdmaaten.github.io/publi
   *  For each cell, subtract all other cell x cell 1D matrices from current cell’s 1D matrix
   *  Get sum of values calculated in previous step
   *  *how to calculate sigma???*
-  *  sigma is determined using a perplexity value 
+  *  sigma is determined by binary search using a perplexity value 
+  *  the perplexity value is related to Shannon Entropy value
   *  normalize similarity matrix 
 <img width="350" alt="Screenshot 2023-05-18 at 1 29 39 PM" src="https://github.com/m1ma0314/CSE185Project/assets/59674595/997a4eea-2650-4d4b-b39d-e2b5193a27a3">
 
