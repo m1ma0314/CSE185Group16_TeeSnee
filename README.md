@@ -30,8 +30,7 @@ Algorithm as described in original t-sne paper https://lvdmaaten.github.io/publi
   *  For each cell, subtract all other cell x cell 1D matrices from current cell’s 1D matrix
   *  Get sum of values calculated in previous step
   *  *how to calculate sigma???*
-  *  sigma is determined by binary search using a perplexity value 
-  *  the perplexity value is related to Shannon Entropy value
+  *  sigma is determined by binary search using a perplexity value, which is related to Shannon Entropy value 
   *  normalize similarity matrix 
 <img width="350" alt="Screenshot 2023-05-18 at 1 29 39 PM" src="https://github.com/m1ma0314/CSE185Project/assets/59674595/997a4eea-2650-4d4b-b39d-e2b5193a27a3">
 
@@ -42,7 +41,7 @@ Algorithm as described in original t-sne paper https://lvdmaaten.github.io/publi
   * *what is y?* 
 
 5. Calculate symmetrical probabilities
-<img width="100" alt="Screenshot 2023-05-18 at 1 32 37 PM" src="https://github.com/m1ma0314/CSE185Project/assets/59674595/0883fc13-748b-46c3-aefd-fd969cc2fd74">
+<img width="300" alt="Screenshot 2023-05-18 at 1 32 37 PM" src="https://github.com/m1ma0314/CSE185Project/assets/59674595/0883fc13-748b-46c3-aefd-fd969cc2fd74">
 
   * Check that sum of probabilities of i from j is greater than 1/2n
   
@@ -50,12 +49,12 @@ Algorithm as described in original t-sne paper https://lvdmaaten.github.io/publi
 <img width="350" alt="Screenshot 2023-05-18 at 1 34 39 PM" src="https://github.com/m1ma0314/CSE185Project/assets/59674595/a500f4cf-aac3-466a-bda7-8150a9477d2b">
 
 7. Sample initial solution to find gamma 
-<img width="100" alt="Screenshot 2023-05-18 at 1 35 22 PM" src="https://github.com/m1ma0314/CSE185Project/assets/59674595/5475e934-fd2f-4303-b330-918ca6023875">
+<img width="300" alt="Screenshot 2023-05-18 at 1 35 22 PM" src="https://github.com/m1ma0314/CSE185Project/assets/59674595/5475e934-fd2f-4303-b330-918ca6023875">
 
   * gamma = 
   
 8. Find gamma(t) 
-<img width="200" alt="Screenshot 2023-05-18 at 1 36 47 PM" src="https://github.com/m1ma0314/CSE185Project/assets/59674595/f245809c-2f02-4c2d-ba6d-d1afa489ad5d">
+<img width="300" alt="Screenshot 2023-05-18 at 1 36 47 PM" src="https://github.com/m1ma0314/CSE185Project/assets/59674595/f245809c-2f02-4c2d-ba6d-d1afa489ad5d">
 
   * Once gamma(t) converges (no longer changes after x number of iterations) we have identified the low dimensional map 
    
