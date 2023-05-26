@@ -8,67 +8,67 @@ def find_similarities(distance_matrix, target_perplexity):
 #set sigma_min to the sigma
 
   count = distance_matrix.shape[0]
-  print(distance_matrix)
-  print(distance_matrix.shape)
   denominators = np.zeros(count)
-  nominators = np.zeros(shape=(count,count))
-  
+  numerators = np.zeros(shape=(count,count))
+
   p_ij = np.zeros(shape=(count,count))
-  sigma = 1.0
+  sigmas = np.zeros(count)
+
+  #array storing original sigmas values
+  sigmas = np.std(distance_matrix,axis=1)
+
   # iterate through each value and calculate the probabilities
-  #norm = np.linalg.norm(distance_matrix)
-  for i in range(count):
-    for j in range(count):
-      nominators[i][j] = np.exp((-distance_matrix[i][j]**2)/(2*sigma**2))
-    denominators[i]=np.sum(nominators[i,:])
-  
-  for i in range(count):
-    for j in range(count):
-      p_ij[i][j] = nominators[i][j]/denominators[i]
-  
-  # calculate perplexity corresponding to p_i we have
-  entropy = np.zeros(count)
-  perp = np.zeros(count)
-  for i in range(count):
-    entropy[i] = -np.sum(p_ij[i,:]*np.log2(p_ij[i,:]))
-    perp[i] = np.power(2,entropy[i])
-  
-  #calculate sigmas for each row
-  sigmas = np.ones(count)
-  for i in range(count):
-    #initial sigma value 
-    sigma2 = 1.0
-    sigma_min = -np.inf
+  iterations = 10
+
+  for row in range(count):  
+    sigma_min = 0
     sigma_max = np.inf
+    sigma = sigmas[row]
 
-    while True:
-      if math.isnan(perp[i]):
+    for sigma_search in range(iterations):
+      for i in range(count):
+        for j in range(count):
+          numerators[j][k] = np.exp((-np.linalg.norm(distance_matrix[i]-distance_matrix[j])**2)/(2*sigmas[row]**2))
+        denominators[i]=np.sum(numerators[i,:])
+  
+      # calculate the conditional probabilities
+      np.fill_diagonal(p_ij, 0)
+      for j in range(count):
+          p_ij[i][j] = numerators[i][j]/denominators[i]
+
+
+      # calculate entropy and perplexity corresponding to p_i we have
+      entropy = 0
+      ε = np.nextafter(0,1)
+  
+      for i in range(count):
+        for j in range(count):
+          p_new = np.maximum(p_ij[i][j],ε)
+          entropy += (p_new*np.log2(p_new))
+      curr_perp = np.power(2,-entropy)
+
+      if math.isnan(curr_perp) or np.abs(curr_perp-target_perplexity) < 1e-5:
         break
-    
-      if perp[i]<target_perplexity:
-        sigma_max = sigma2
+
+      # binary search for sigma
+      if curr_perp < target_perplexity:
+        sigma_min = sigma
       else:
-        sigma_min = sigma2
+        sigma_max = sigma
 
-      if np.abs(perp[i]-target_perplexity) < 1e-5:
-        break
-
-      sigma2 = np.average(sigma_max,sigma_min)
-    
-    sigmas[i] = sigma2
+      sigma = (sigma_max+sigma_min)/2
+      
+    sigmas[row] = sigma
   
   #after finding the real sigmas, calculate the real similarities matrix
   similarities = np.zeros(shape=(count,count))
   for i in range(count):
     for j in range(count):
-      nominators[i][j] = np.exp((-distance_matrix[i][j]**2)/(2*sigmas[i]**2))
-    denominators[i]=np.sum(nominators[i,:])
-
+      numerators[i][j] = np.exp((-np.linalg.norm(distance_matrix[i]-distance_matrix[j])**2)/(2*sigmas[i]**2))
+    denominators[i]=np.sum(numerators[i,:])
+  
   for i in range(count):
     for j in range(count):
-      similarities[i][j] = nominators[i][j]/denominators[i]
+      similarities[i][j] = numerators[i][j]/denominators[i]
 
   return similarities
-
-find_similarities(pairwise_distances,10)
-
