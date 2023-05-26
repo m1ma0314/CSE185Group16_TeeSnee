@@ -32,7 +32,7 @@ Algorithm as described in original t-sne paper https://lvdmaaten.github.io/publi
   *  *how to calculate sigma???*
   *  sigma is determined by binary search using a perplexity value, which is related to Shannon Entropy value 
   *  <img width="300" alt="Screen Shot 2023-05-25 at 10 39 15 PM" src="https://github.com/m1ma0314/CSE185Project/assets/97704603/5eafb20f-32f1-4645-af40-abcfc2ea96b6">
-<img width="300" alt="Screen Shot 2023-05-25 at 10 39 56 PM" src="https://github.com/m1ma0314/CSE185Project/assets/97704603/66609788-b053-4bf2-b2e0-6f142dca03e4">
+  *  <img width="300" alt="Screen Shot 2023-05-25 at 10 39 56 PM" src="https://github.com/m1ma0314/CSE185Project/assets/97704603/66609788-b053-4bf2-b2e0-6f142dca03e4">
   *  normalize similarity matrix 
 <img width="350" alt="Screenshot 2023-05-18 at 1 29 39 PM" src="https://github.com/m1ma0314/CSE185Project/assets/59674595/997a4eea-2650-4d4b-b39d-e2b5193a27a3">
 
