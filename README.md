@@ -60,3 +60,4 @@ Algorithm as described in original t-sne paper https://lvdmaaten.github.io/publi
   * Once gamma(t) converges (no longer changes after x number of iterations) we have identified the low dimensional map 
    
 9. Plot 
+edit here
