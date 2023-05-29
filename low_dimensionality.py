@@ -7,7 +7,7 @@ def calculate_low_dimension(low_dim):
     denominators = np.zeros(len(low_dim))
     numerators = np.zeros(shape =(len(low_dim), len(low_dim)))
     
-    for i in range(0,2):
+    for i in range(0,len(low_dim)):
         for j in range(len(low_dim)):
             if(i == j): numerators[i][j] = 0
             else: 
