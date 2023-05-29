@@ -28,7 +28,7 @@ def find_similarities(distance_matrix, target_perplexity):
     for sigma_search in range(iterations):
       for i in range(count):
         for j in range(count):
-          numerators[j][k] = np.exp((-np.linalg.norm(distance_matrix[i]-distance_matrix[j])**2)/(2*sigmas[row]**2))
+          numerators[i][j] = np.exp((-np.linalg.norm(distance_matrix[i]-distance_matrix[j])**2)/(2*sigmas[row]**2))
         denominators[i]=np.sum(numerators[i,:])
   
       # calculate the conditional probabilities
