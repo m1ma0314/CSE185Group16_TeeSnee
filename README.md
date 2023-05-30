@@ -27,9 +27,11 @@ Sample data (count matrix) taken from:
 # Installation Instruction <a name="install"></a>
 [BACK TO TABLE OF CONTENTS](#toc)
 
-* Install `tsne` program with the following command:
+* Install `teesnee` program with the following command:
 ```
 git clone https://github.com/m1ma0314/CSE185Group16_TeeSnee.git
+```
+```
 cd CSE185Group16_TeeSnee
 ```
 * Python Installation
