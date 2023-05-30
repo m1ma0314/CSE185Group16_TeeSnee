@@ -15,7 +15,7 @@ def main():
 
   # Input
   parser.add_argument("filename", help="gene data file (specify if zipped or not)",type=str)
-  parser.add_argument("-p","--target_perplexity",help="user specificed perplexity",type=int,metavar="PERPLEXITY",required=True)
+  parser.add_argument("-p","--target_perplexity",help="user specificed perplexity",type=int,metavar="PERPLEXITY",required=False)
   parser.add_argument("-z","--zipped",help="unzip file if input is zipped",action="store_true")
 
   args = parser.parse_args()
