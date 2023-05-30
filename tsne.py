@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import argparse
 from sklearn.cluster import KMeans
 import warnings
+import os
 
 # Suppress all warnings
 warnings.filterwarnings("ignore")
@@ -158,12 +159,12 @@ def plot(low_dim_embeddings, clustered_data, output):
     plt.yticks([])
     plt.xlabel('tSNE 1')
     plt.ylabel('tSNE 2')
-
-    plt.savefig(output + "tsne_plot.png")
+    if os.path.isdir(output):  
+       plt.savefig(output + "tsneplot.png") 
+    else: plt.savefig(output) 
+    
 #if num_iterations is not given by user, set to 1000
 # add parameter to set the number of dimmensions, if not given by user, set to 2 
-
-
 
 def calculate_tSNE(cellxgene_mat, output, target_perplexity):
     '''
@@ -172,10 +173,6 @@ def calculate_tSNE(cellxgene_mat, output, target_perplexity):
      cellxgene_mat: 
      
      output:
-     
-     num_iterations: 
-     
-     num_dimensions: 
      
      References
      ----------
@@ -250,19 +247,26 @@ def main():
   # Input
   parser.add_argument("filename", help="gene data file (specify if zipped or not)",type=str)
   parser.add_argument("-o", "--output", help="output directory",type=str)
-  parser.add_argument("-p","--target_perplexity",help="user specificed perplexity",type=int,metavar="PERPLEXITY",required=True)
+  parser.add_argument("-p","--target_perplexity", help="user specificed perplexity",type=int,metavar="PERPLEXITY",required=False)
   parser.add_argument("-z","--zipped",help="unzip file if input is zipped",action="store_true")
 
   args = parser.parse_args()
-  if args.zipped:
-      print("File is zipped. Extracting and reading as CSV:", args.filename)
-      unzipped_filename = args.filename
-      unzipped_filename = pd.read_csv(unzipped_filename,compression='gzip', delimiter='\t')
-      calculate_tSNE(unzipped_filename,args.output, args.target_perplexity)
+
+  if not args.target_perplexity:
+    args.target_perplexity = 40
+ 
+    unzipped_filename = args.filename
+    #check if zipped file is a csv
+    if unzipped_filename.endswith('.tsv'): #check if file is tab vs. comma separated file 
+        unzipped_filename = pd.read_csv(unzipped_filename,compression='gzip', delimiter='\t')
+    else: 
+        unzipped_filename = pd.read_csv(unzipped_filename,compression='gzip')
+      
+    calculate_tSNE(unzipped_filename,args.output, args.target_perplexity)
+
   else:
-      calculate_tSNE(args.filename,args.output,args.target_perplexity)
-
-
+      calculate_tSNE(args.filename,args.output, args.target_perplexity)
+      
 if __name__ == "__main__":
   main()
     
