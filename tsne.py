@@ -3,6 +3,11 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 import argparse
+from sklearn.cluster import KMeans
+import warnings
+
+# Suppress all warnings
+warnings.filterwarnings("ignore")
 
 def calculate_pairwise_distances(counts):
     # initialize an empty matrix to store pairwise distances 
@@ -14,8 +19,6 @@ def calculate_pairwise_distances(counts):
             distances = math.sqrt(np.sum((counts[cell] - counts[cell2])**2))
             pairwise_distances[cell][cell2] = distances
     return pairwise_distances
-import numpy as np
-import math
 
 def find_similarities(distance_matrix, target_perplexity):
 #sigma will produce the perplexity close to the user defined perplexity
@@ -97,8 +100,6 @@ def symmetrical_probabilities(similarities):
             symmetrical_prob[i][j] = (similarities[i][j] + similarities[j][i])/2*n
     return symmetrical_prob 
 
-low_dim = np.random.randn(len(counts), 2)
-
 def calculate_low_dimension(low_dim):
     ld_pairwise_sim = np.zeros(shape =(len(low_dim), len(low_dim)))
     denominators = np.zeros(len(low_dim))
@@ -127,22 +128,44 @@ def calculate_gradient(symmetrical_probabilities, ld_sim, low_dim):
     return gradients
 
 def calculate_clusters(low_dim_embeddings, max_num_clusters):
-    return
+    inertia = []
+    # code based on example https://www.geeksforgeeks.org/elbow-method-for-optimal-value-of-k-in-kmeans/#
+    
+    n_clusters = range(1, max_num_clusters)
+    for i in range(1,max_num_clusters):
+        kmeans = KMeans(i)
+        kmeans.fit(low_dim_embeddings)
+        inertia.append(kmeans.inertia_)
+    
+    #find elbow point (maximum second derivative val
+    _2nd_derivatives = np.diff(np.diff(inertia))
+    elbow_index = np.argmax(_2nd_derivatives) + 1
+    elbow_point = n_clusters[elbow_index]
 
-def plot(clustered_data, output):
+    #calculate kmeans based on final number of clusters 
+    kmeans = KMeans(elbow_point)
+    kmeans.fit(low_dim_embeddings)
+    labels = kmeans.labels_
+    return labels
+
+def plot(low_dim_embeddings, clustered_data, output):
     #check if output is a directory or filename 
-    xcoords = [vals[0] for vals in clustered_data]
-    ycoords = [vals[1] for vals in clustered_data]
-    clusters = [vals[2] for vals in clustered_data]
+    xcoords = [vals[0] for vals in low_dim_embeddings]
+    ycoords = [vals[1] for vals in low_dim_embeddings]
     
-    plt.scatter(xcoords, ycoords, c= clusters)
-    
+    plt.scatter(xcoords, ycoords, c= clustered_data)
+    plt.xticks([])
+    plt.yticks([])
+    plt.xlabel('tSNE 1')
+    plt.ylabel('tSNE 2')
+
+    plt.savefig(output + "tsne_plot.png")
 #if num_iterations is not given by user, set to 1000
 # add parameter to set the number of dimmensions, if not given by user, set to 2 
 
 
 
-def calculate_tSNE(cellxgene_mat, output, num_iterations):
+def calculate_tSNE(cellxgene_mat, output, target_perplexity):
     '''
      Parameters
      ----------
@@ -161,7 +184,7 @@ def calculate_tSNE(cellxgene_mat, output, num_iterations):
      https://lvdmaaten.github.io/publications/papers/JMLR_2008.pdf
      
     '''
-    
+    num_iterations = 100
     #STEP 1: parse cell x gene matrix  
     if cellxgene_mat.endswith('.tsv'): #check if file is tab vs. comma separated file 
         count_matrix_df = pd.read_csv(cellxgene_mat, delimiter = "\t") 
@@ -175,19 +198,19 @@ def calculate_tSNE(cellxgene_mat, output, num_iterations):
     pairwise_distances = calculate_pairwise_distances(counts)
     
     #STEP 3: calculate similarity matrix 
-    target_perplexity = 40 #define target perplexity -- 40 is the value used in the paper section 4.2  
+    # target_perplexity = 40 #define target perplexity -- 40 is the value used in the paper section 4.2  
     similarities = find_similarities(pairwise_distances, target_perplexity)
     
     #STEP 4: calculate symmetrical conditional probabilities
-    symmetrical_probabilities = symmetrical_probabilities(similarities)
+    sym_probabilities = symmetrical_probabilities(similarities)
     
     #STEP 5: calculate low dimensional counterpart to similarity matrix 
-    rand_low_dim = np.random.normal(loc=0.0, scale=1.0, size=(len(counts), num_dimensions)) # generate random low dimensional space (2 dimensions) of Euclidean distances by drawing random samples from a normal (Gaussian) distribution
+    rand_low_dim = np.random.normal(loc=0.0, scale=1.0, size=(len(counts), 2)) # generate random low dimensional space (2 dimensions) of Euclidean distances by drawing random samples from a normal (Gaussian) distribution
     
     #STEP 6: sample initial solution (gamma[0])
-    gamma = np.zeros(num_iterations) #gamma is the low dimensional embedings 
-    gamma[0] = np.zeros_like(low_dim)
-    gamma[1] = low_dim
+    gamma = [0] * num_iterations #gamma is the low dimensional embedings 
+    gamma[0] = np.zeros_like(rand_low_dim)
+    gamma[1] = rand_low_dim
     
     learning_rate = 1000 #initially set learning rate to 1000, this will be updated after each iteration of optimization
     
@@ -203,7 +226,7 @@ def calculate_tSNE(cellxgene_mat, output, num_iterations):
         low_dim_affinities = calculate_low_dimension(gamma[t])
         
         #STEP 8: calculate gradients between low-dimensional datapoints -- a function of pairwise Euclidean distances in the high-dimensional and low-dimensional space
-        gradients = calculate_gradient(symmetrical_probabilities, low_dim_affinities, gamma[t])
+        gradients = calculate_gradient(sym_probabilities, low_dim_affinities, gamma[t])
         
         #STEP 9: calculate gamma[t]
         gamma[t+1] = gamma[t] + learning_rate * gradients + momentum*(gamma[t] - gamma[t-1]) #modified equation to substitute gamma[t-2] to gamma[t-1]     
@@ -211,9 +234,8 @@ def calculate_tSNE(cellxgene_mat, output, num_iterations):
     #STEP 10: perform k-means clustering to cluster data 
     max_num_clusters = 10
     clustered_data = calculate_clusters(gamma[len(gamma)-1], max_num_clusters)
-    
     #STEP 11 (FINAL STEP !!!)
-    plot(clustered_data, output)
+    plot(gamma[len(gamma)-1], clustered_data, output)
     
 """
 Command-line script to run t-SNE
@@ -227,6 +249,7 @@ def main():
 
   # Input
   parser.add_argument("filename", help="gene data file (specify if zipped or not)",type=str)
+  parser.add_argument("-o", "--output", help="output directory",type=str)
   parser.add_argument("-p","--target_perplexity",help="user specificed perplexity",type=int,metavar="PERPLEXITY",required=True)
   parser.add_argument("-z","--zipped",help="unzip file if input is zipped",action="store_true")
 
@@ -235,9 +258,9 @@ def main():
       print("File is zipped. Extracting and reading as CSV:", args.filename)
       unzipped_filename = args.filename
       unzipped_filename = pd.read_csv(unzipped_filename,compression='gzip', delimiter='\t')
-      tsne(unzipped_filename,args.target_perplexity)
+      calculate_tSNE(unzipped_filename,args.output, args.target_perplexity)
   else:
-      tsne(args.filename,args.target_perplexity)
+      calculate_tSNE(args.filename,args.output,args.target_perplexity)
 
 
 if __name__ == "__main__":
