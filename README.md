@@ -27,6 +27,11 @@ Sample data (count matrix) taken from:
 # Installation Instruction <a name="install"></a>
 [BACK TO TABLE OF CONTENTS](#toc)
 
+* Install `tsne` program with the following command:
+```
+git clone https://github.com/m1ma0314/CSE185Group16_tSNE.git
+cd CSE185Group16_tSNE
+```
 * Python Installation
 [Click Me to Get Python](https://www.python.org/downloads/)
 
@@ -39,11 +44,6 @@ python -m ensurepip --upgrade
 
 ```
 pip install -r requirements.txt
-```
-* Once required libraries are installed, you can install `tsne` with the following command:
-```
-git clone https://github.com/m1ma0314/CSE185Group16_tSNE.git
-cd CSE185Group16_tSNE
 ```
 
 # Basic Usage <a name="usage"></a>
