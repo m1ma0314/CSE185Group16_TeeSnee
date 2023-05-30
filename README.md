@@ -22,6 +22,18 @@ After downloading the data:
 ```
 gunzip endocrine.counts.mtx.gz
 ```
+# Installation Instruction <a name="install"></a>
+[BACK TO TABLE OF CONTENTS](#toc)
+
+Installation requires the `numpy`, `pandas`, `matplotlib`, `scikit-learn` libraries to be installed. You can install these with `pip`:
+
+```
+pip install -r requirements.txt
+```
+Once required libraries are installed, you can install `tsne` with the following command:
+```
+
+```
 
 Functions Draft:
 
