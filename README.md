@@ -6,7 +6,7 @@ This is group 16 final project for CSE185. It follows the algorithm description 
 [![NumPy](https://img.shields.io/badge/NumPy-1.24-yellow.svg)](https://numpy.org/doc/stable/index.html)
 [![pandas](https://img.shields.io/badge/pandas-2.0.0-orange.svg)](https://pandas.pydata.org/)
 [![Matplotlib](https://img.shields.io/badge/Matplotlib-3.7.0-purple.svg)](https://matplotlib.org/)
-[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.2.2-orange.svg)](https://scikit-learn.org/stable/)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.2.2-red.svg)](https://scikit-learn.org/stable/)
 
 # Table of contents <a name="toc"></a >
 - [Sample Data Download](#data)
