@@ -1,4 +1,16 @@
-# CSE185Project
+# CSE185Project t-SNE implementation
+This is group 16 final project for CSE185. It follows the algorithm description in  the [original t-SNE parper](https://lvdmaaten.github.io/publications/papers/JMLR_2008.pdf) to implement t-SNE tool.
+
+# Table of contents <a name="toc"></a >
+- [Sample Data Download](#data)
+- [Installation Instructions](#install)
+- [Basic Usage](#usage)
+- [Complete Usage](#instruction)
+- [Contributors](#credit)
+
+
+# Sample Data Download <a name="data"></a>
+[BACK TO TABLE OF CONTENTS](#toc)
 
 Sample data (count matrix) taken from: 
 [https://singlecell.broadinstitute.org/single_cell/study/SCP1526/functional-metabolic-and-transcriptional-maturation-of-human-pancreatic-islets-derived-from-stem-cells#study-download](https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE164073)
