@@ -253,7 +253,7 @@ def main():
   args = parser.parse_args()
 
   if not args.target_perplexity:
-    args.target_perplexity = 40
+    args.target_perplexity = 100
   if args.zipped:
     print("File is zipped. Extracting and reading as CSV:", args.filename)
     unzipped_filename = args.filename
