@@ -38,6 +38,7 @@ cd CSE185Group16_tSNE
 * Pip Installation 
 ```
 python -m ensurepip --upgrade
+python -m pip install --upgrade pip
 ```
 
 * Installation requires the `numpy`, `pandas`, `matplotlib`, `scikit-learn` libraries to be installed. You can install these with `pip`:
