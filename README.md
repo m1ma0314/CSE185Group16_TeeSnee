@@ -61,9 +61,8 @@ python tsne.py [-p targer_perlexity] [-z ifzipped] [-o output] filename
 ```
 
 To run `tsne` on a small test example (using files in this repo):
-
 ```
-python tsne.py -p 40 -z -o ./myplot.png minimal_dataset.csv
+python tsne.py -p 40 -o ./myplot.png minimal_dataset.csv
 ```
 # Complete usage instructions <a name="instruction"></a>
 [BACK TO TABLE OF CONTENTS](#toc)
