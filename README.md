@@ -1,7 +1,8 @@
 # CSE185Project t-SNE implementation
 This is group 16 final project for CSE185. It follows the algorithm description in  the [original t-SNE parper](https://lvdmaaten.github.io/publications/papers/JMLR_2008.pdf) to implement t-SNE tool.
 
-[![Python Version](https://img.shields.io/badge/python-3.6%20|%203.7%20|%203.8%20|%203.9%20|%203.10-blue.svg)](https://www.python.org/downloads/){:target="_blank"}
+[![Python Version](https://img.shields.io/badge/python-3.6%20|%203.7%20|%203.8%20|%203.9%20|%203.10-blue.svg)](https://www.python.org/downloads/)
+
 
 
 ![PyPI Version](https://img.shields.io/pypi/v/your-package-name.svg)
