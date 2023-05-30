@@ -254,18 +254,17 @@ def main():
 
   if not args.target_perplexity:
     args.target_perplexity = 40
- 
+  if args.zipped:
+    print("File is zipped. Extracting and reading as CSV:", args.filename)
     unzipped_filename = args.filename
     #check if zipped file is a csv
     if unzipped_filename.endswith('.tsv'): #check if file is tab vs. comma separated file 
-        unzipped_filename = pd.read_csv(unzipped_filename,compression='gzip', delimiter='\t')
+        unzipped_filename = pd.read_csv(unzipped_filename,compression='gzip', delimiter = "\t")
     else: 
         unzipped_filename = pd.read_csv(unzipped_filename,compression='gzip')
-      
-    calculate_tSNE(unzipped_filename,args.output, args.target_perplexity)
-
+        calculate_tSNE(unzipped_filename,args.output, args.target_perplexity)
   else:
-      calculate_tSNE(args.filename,args.output, args.target_perplexity)
+    calculate_tSNE(args.filename,args.output, args.target_perplexity)
       
 if __name__ == "__main__":
   main()
