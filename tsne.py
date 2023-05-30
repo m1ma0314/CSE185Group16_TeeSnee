@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+import argparse
 
 def calculate_pairwise_distances(counts):
     # initialize an empty matrix to store pairwise distances 
@@ -213,4 +214,32 @@ def calculate_tSNE(cellxgene_mat, output, num_iterations):
     
     #STEP 11 (FINAL STEP !!!)
     plot(clustered_data, output)
+    
+"""
+Command-line script to run t-SNE
+"""
+
+def main():
+  parser = argparse.ArgumentParser(
+      prog="tsne.py",
+      description="command-line script to generate tsne plots"
+  )
+
+  # Input
+  parser.add_argument("filename", help="gene data file (specify if zipped or not)",type=str)
+  parser.add_argument("-p","--target_perplexity",help="user specificed perplexity",type=int,metavar="PERPLEXITY",required=True)
+  parser.add_argument("-z","--zipped",help="unzip file if input is zipped",action="store_true")
+
+  args = parser.parse_args()
+  if args.zipped:
+      print("File is zipped. Extracting and reading as CSV:", args.filename)
+      unzipped_filename = args.filename
+      unzipped_filename = pd.read_csv(unzipped_filename,compression='gzip', delimiter='\t')
+      tsne(unzipped_filename,args.target_perplexity)
+  else:
+      tsne(args.filename,args.target_perplexity)
+
+
+if __name__ == "__main__":
+  main()
     
