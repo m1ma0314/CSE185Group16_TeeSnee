@@ -62,13 +62,13 @@ python tsne.py [-p targer_perlexity] [-z ifzipped] [-o output] filename
 
 To run `tsne` on a small test example (using files in this repo):
 ```
-python tsne.py -p 40 -o ./myplot.png minimal_dataset.csv
+python tsne.py -p 100 -o ./ minimal_dataset.csv
 ```
 # Complete usage instructions <a name="instruction"></a>
 [BACK TO TABLE OF CONTENTS](#toc)
 
 The only required input to `my_tsne` is a cell x gene matrix data file. Users may additionally specify the options below:
-* `-p PERPLEXITY`, `--target_perplexity PERPLEXITY`: specify perplexity between 5 and 50. If specified, the `tsne` function will calculate similarities matrix based on specified perplexity value and generate t-SNE plot. Higher perplexity value is associated with tighter clusters in the final output plot. Otherwise, the `tsne` function use `perplexity=40` by default.
+* `-p PERPLEXITY`, `--target_perplexity PERPLEXITY`: specify perplexity between 5 and 50. If specified, the `tsne` function will calculate similarities matrix based on specified perplexity value and generate t-SNE plot. Higher perplexity value is associated with tighter clusters in the final output plot. Otherwise, the `tsne` function use `perplexity=100` by default.
 * `-z ifzipped`, `--zipped`: unzip dataset file if this argument is specified. By default, the datafile is viewed as unzipped and will be converted into matrix for further processing.
 * `-o FILE`, `--output FILE`: Write output to file. By default, output is written to `tsneplot.png`
 
