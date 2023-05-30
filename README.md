@@ -16,23 +16,27 @@ Sample data (count matrix) taken from:
 [https://singlecell.broadinstitute.org/single_cell/study/SCP1526/functional-metabolic-and-transcriptional-maturation-of-human-pancreatic-islets-derived-from-stem-cells#study-download](https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE164073)
 * need to make a Broad Institute account (Free!) to download the data
 
-After downloading the data: 
-```
-gunzip endocrine.counts.mtx.gz
-```
 
 # Installation Instruction <a name="install"></a>
 [BACK TO TABLE OF CONTENTS](#toc)
 
+* Python Installation
+[Click Me to Get Python](https://www.python.org/downloads/)
 
-Installation requires the `numpy`, `pandas`, `matplotlib`, `scikit-learn` libraries to be installed. You can install these with `pip`:
+* PIP Installation 
+```
+python -m ensurepip --upgrade
+```
+
+* Installation requires the `numpy`, `pandas`, `matplotlib`, `scikit-learn` libraries to be installed. You can install these with `pip`:
 
 ```
 pip install -r requirements.txt
 ```
-Once required libraries are installed, you can install `tsne` with the following command:
+* Once required libraries are installed, you can install `tsne` with the following command:
 ```
-
+git clone https://github.com/m1ma0314/CSE185Group16_tSNE.git
+cd CSE185Group16_tSNE
 ```
 
 Functions Draft:
