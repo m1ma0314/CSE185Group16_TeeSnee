@@ -46,19 +46,24 @@ python -m pip install --upgrade pip
 ```
 pip install -r requirements.txt
 ```
+* Change permissions of tsne.py:
+
+```
+chmod 777 tsne.py
+```
 
 # Basic Usage <a name="usage"></a>
 [BACK TO TABLE OF CONTENTS](#toc)
 
 The basic usage of `tsne` is:
 ```
-tsne.py [-p targer_perlexity] [-z ifzipped] [-o output] filename
+python tsne.py [-p targer_perlexity] [-z ifzipped] [-o output] filename
 ```
 
 To run `tsne` on a small test example (using files in this repo):
 
 ```
-tsne.py -p 40 -z -o ./myplot.png minimal_dataset.csv
+python tsne.py -p 40 -z -o ./myplot.png minimal_dataset.csv
 ```
 # Complete usage instructions <a name="instruction"></a>
 [BACK TO TABLE OF CONTENTS](#toc)
