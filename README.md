@@ -49,7 +49,7 @@ cd CSE185Group16_tSNE
 # Basic Usage <a name="usage"></a>
 [BACK TO TABLE OF CONTENTS](#toc)
 
-The basic usage of `my_tsne` is:
+The basic usage of `tsne` is:
 ```
 tsne.py [-p targer_perlexity] [-z ifzipped] [-o output] filename
 ```
