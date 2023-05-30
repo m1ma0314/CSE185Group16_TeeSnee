@@ -69,6 +69,7 @@ The only required input to `my_tsne` is a cell x gene matrix data file. Users ma
 
 ## File Format
 The output t-SNE plot is in `png` format.
+
 ![tsne_plot](https://github.com/m1ma0314/CSE185Group16_tSNE/assets/97704603/d9983cb9-58d6-416f-905b-bc62e580fb7c)
 
 # Contributors <a name='credit'></a>
