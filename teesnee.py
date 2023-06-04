@@ -6,6 +6,8 @@ import argparse
 from sklearn.cluster import KMeans
 import warnings
 import os
+from datetime import datetime
+
 
 # Suppress all warnings
 warnings.filterwarnings("ignore")
@@ -40,18 +42,27 @@ def find_similarities(distance_matrix, target_perplexity):
   # iterate through each value and calculate the probabilities
   iterations = 10
 
+  print("Starting calculating sigma values. Please wait... \n")
+  now = datetime.now()
+  current_time = now.strftime("%H:%M:%S")
+  print("Current Time =", current_time, "\n")
+  print("Total number of rows = ", count, "\n")
+  
   for row in range(count):  
     sigma_min = 0
     sigma_max = np.inf
     sigma = sigmas[row]
-
+    
+    print("Calculating sigma for row ", row, "...\n")
     for sigma_search in range(iterations):
+      print("Row ", row, "sigma calculating iteration ", sigma_search, "...\n")     
       for i in range(count):
         for j in range(count):
           numerators[i][j] = np.exp((-np.linalg.norm(distance_matrix[i]-distance_matrix[j])**2)/(2*sigmas[row]**2))
         denominators[i]=np.sum(numerators[i,:])
   
       # calculate the conditional probabilities
+      print("Calculating conditional probabilities for row", row, "iteration ", sigma_search,"...\n")
       np.fill_diagonal(p_ij, 0)
       for j in range(count):
           p_ij[i][j] = numerators[i][j]/denominators[i]
@@ -69,7 +80,7 @@ def find_similarities(distance_matrix, target_perplexity):
 
       if math.isnan(curr_perp) or np.abs(curr_perp-target_perplexity) < 1e-5:
         break
-
+      print("Binary Search for sigma...\n")
       # binary search for sigma
       if curr_perp < target_perplexity:
         sigma_min = sigma
@@ -77,10 +88,18 @@ def find_similarities(distance_matrix, target_perplexity):
         sigma_max = sigma
 
       sigma = (sigma_max+sigma_min)/2
-      
+    
+    print("sigma value for row ",row, " found.\n")
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("Current Time =", current_time, "\n")
     sigmas[row] = sigma
   
   #after finding the real sigmas, calculate the real similarities matrix
+  print("Calculating real similarity matrix... \n")
+  now = datetime.now()
+  current_time = now.strftime("%H:%M:%S")
+  print("Start Time =", current_time, "\n")
   similarities = np.zeros(shape=(count,count))
   for i in range(count):
     for j in range(count):
@@ -91,6 +110,10 @@ def find_similarities(distance_matrix, target_perplexity):
     for j in range(count):
       similarities[i][j] = numerators[i][j]/denominators[i]
 
+  print("Similarity matrix calculated. \n")
+  now = datetime.now()
+  current_time = now.strftime("%H:%M:%S")
+  print("End Time =", current_time, "\n")
   return similarities
 
 def symmetrical_probabilities(similarities):
@@ -188,21 +211,46 @@ def calculate_tSNE(cellxgene_mat, output, target_perplexity):
     else: 
         count_matrix_df = pd.read_csv(cellxgene_mat) 
     
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("calculate_tSNE Start Time =", current_time, "\n")
+    
     #convert dataframe (cell by gene count matrix) to 2D numpy array 
     counts = count_matrix_df.to_numpy() 
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("Dataframe (cell by gene count matrix) to 2D numpy array calculated. Current Time =", current_time, "\n")
     
+    print("Starting calculating pairwise distances between each cell. \n")
+    print("It may take some time to finish running if dataset is huge. \n")
     #STEP 2: calculate pairwise distances between each cell 
     pairwise_distances = calculate_pairwise_distances(counts)
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("Finished calculating pairwise distances between each cell. Current Time =", current_time, "\n")
     
+    print("Now starting similarity matrix. \n")
     #STEP 3: calculate similarity matrix 
     # target_perplexity = 40 #define target perplexity -- 40 is the value used in the paper section 4.2  
     similarities = find_similarities(pairwise_distances, target_perplexity)
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("Finished calculating similarity matrix. Current Time =", current_time, "\n")
     
+    print("Now starting symmetrical conditional probabilities. \n")
     #STEP 4: calculate symmetrical conditional probabilities
     sym_probabilities = symmetrical_probabilities(similarities)
     
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("Finished calculating symmetrical conditional probabilities. Current Time =", current_time, "\n")
+    
+    print("Now starting low dimensional counterpart to similarity matrix. \n")
     #STEP 5: calculate low dimensional counterpart to similarity matrix 
     rand_low_dim = np.random.normal(loc=0.0, scale=1.0, size=(len(counts), 2)) # generate random low dimensional space (2 dimensions) of Euclidean distances by drawing random samples from a normal (Gaussian) distribution
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("Finished calculating low dimensional counterpart to similarity matrix. Current Time =", current_time, "\n")
     
     #STEP 6: sample initial solution (gamma[0])
     gamma = [0] * num_iterations #gamma is the low dimensional embedings 
@@ -211,6 +259,7 @@ def calculate_tSNE(cellxgene_mat, output, target_perplexity):
     
     learning_rate = 1000 #initially set learning rate to 1000, this will be updated after each iteration of optimization
     
+    print("Optimization and most time-consuming part of the function. \n")
     #most time-consuming part of function
     for t in range(1, num_iterations - 1): #iterate num_iterations -1 number of times for optimization
         
@@ -228,10 +277,18 @@ def calculate_tSNE(cellxgene_mat, output, target_perplexity):
         #STEP 9: calculate gamma[t]
         gamma[t+1] = gamma[t] + learning_rate * gradients + momentum*(gamma[t] - gamma[t-1]) #modified equation to substitute gamma[t-2] to gamma[t-1]     
     
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("Finished optimization. Current Time =", current_time, "\n")
     #STEP 10: perform k-means clustering to cluster data 
     max_num_clusters = 10
     clustered_data = calculate_clusters(gamma[len(gamma)-1], max_num_clusters)
+    
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("Finished clustering. Current Time =", current_time, "\n")
     #STEP 11 (FINAL STEP !!!)
+    print("Ready to plot. Thank you for your patience. Check your output in ", output, "\n")
     plot(gamma[len(gamma)-1], clustered_data, output)
     
 """
@@ -264,6 +321,10 @@ def main():
         unzipped_filename = pd.read_csv(unzipped_filename,compression='gzip')
         calculate_tSNE(unzipped_filename,args.output, args.target_perplexity)
   else:
+    print("Extracting and reading as CSV:", args.filename)
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("Start Time =", current_time, "\n")
     calculate_tSNE(args.filename,args.output, args.target_perplexity)
       
 if __name__ == "__main__":
