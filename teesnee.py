@@ -290,6 +290,7 @@ def calculate_tSNE(cellxgene_mat, output, target_perplexity):
     #STEP 11 (FINAL STEP !!!)
     print("Ready to plot. Thank you for your patience. Check your output in ", output, "\n")
     plot(gamma[len(gamma)-1], clustered_data, output)
+    return clustered_data
     
 """
 Command-line script to run t-SNE
