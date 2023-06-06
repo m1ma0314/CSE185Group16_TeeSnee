@@ -20,8 +20,8 @@ This is group 16 final project for CSE185. It follows the algorithm description 
 [BACK TO TABLE OF CONTENTS](#toc)
 
 Sample data (count matrix) taken from: 
-[https://singlecell.broadinstitute.org/single_cell/study/SCP1526/functional-metabolic-and-transcriptional-maturation-of-human-pancreatic-islets-derived-from-stem-cells#study-download](https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE164073)
-* need to make a Broad Institute account (Free!) to download the data
+https://www.10xgenomics.com/resources/datasets/human-brain-cancer-11-mm-capture-area-ffpe-2-standard  
+* INSERT INFORMATION ABOUT HOW TO PROCESS THE DATA
 
 
 # Installation Instruction <a name="install"></a>
