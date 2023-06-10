@@ -8,6 +8,8 @@ This is group 16 final project for CSE185. It follows the algorithm description 
 [![Matplotlib](https://img.shields.io/badge/Matplotlib-3.7.0-purple.svg)](https://matplotlib.org/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.2.2-red.svg)](https://scikit-learn.org/stable/)
 [![Anndata](https://img.shields.io/badge/anndata-v0.9.1-brightgreen)](https://github.com/theislab/anndata)
+[![Scanpy](https://img.shields.io/badge/scanpy-v2.5.0-yellow)](https://scapy.readthedocs.io/en/latest/introduction.html)
+
 
 
 # Table of contents <a name="toc"></a >
