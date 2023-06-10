@@ -1,0 +1,13 @@
+teeSnee max computation time:  35000 ms = 35 seconds
+scanpy’s t-SNE max computation: 1,500ms = 1.5 seconds 
+teeSnee is 23x slower than scanpy
+
+With a sample size of 200 cells, teeSnee & scanpy identified 3 clusters (resolution of 0.3)
+scanpy’s t-sne had a median of 37 cells per cluster, teeSnee had a median of 32 cells per cluster 
+Shared Cluster Composition:	
+15/28 cells in teesnee cluster 1 also found in scanpy cluster 1
+13/36 cells in teesnee cluster 2 also found in scanpy cluster 2
+6/35 cells in teesnee cluster 3 also found in scanpy cluster 3
+Max 54% shared cluster composition 
+
+
